@@ -1,33 +1,32 @@
 # Name: Huynh Khanh Thien
 # Student ID: 26560059
-# Purpose: Experiment 2 - Arguments and return values (clamp(x, lo, hi) procedure)
+# Purpose: Experiment 2 - Arguments and return values (clamp)
 
 .text
 .globl main
 main:
-    li   $v0, 5                 # read an integer x into $v0
+    li   $v0, 5
     syscall
-    add  $a0, $v0, $zero        # argument 1: x
-    addi $a1, $zero, 0          # argument 2: lo = 0
-    addi $a2, $zero, 100        # argument 3: hi = 100
+    add  $a0, $v0, $zero
+    addi $a1, $zero, 0
+    addi $a2, $zero, 100
     jal  clamp
-    add  $a0, $v0, $zero        # print the result
+    add  $a0, $v0, $zero
     li   $v0, 1
     syscall
     li   $v0, 10
     syscall
 
-# clamp(x = $a0, lo = $a1, hi = $a2): returns x limited to [lo, hi] in $v0
 clamp:
-    slt  $t0, $a0, $a1          # $t0 = 1 if x < lo
+    slt  $t0, $a0, $a1
     beq  $t0, $zero, clamp_check_hi
-    add  $v0, $a1, $zero        # result = lo
+    add  $v0, $a1, $zero
     jr   $ra
 clamp_check_hi:
-    slt  $t0, $a2, $a0          # $t0 = 1 if hi < x
+    slt  $t0, $a2, $a0
     beq  $t0, $zero, clamp_in_range
-    add  $v0, $a2, $zero        # result = hi
+    add  $v0, $a2, $zero
     jr   $ra
 clamp_in_range:
-    add  $v0, $a0, $zero        # result = x
+    add  $v0, $a0, $zero
     jr   $ra
